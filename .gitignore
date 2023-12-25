@@ -8,3 +8,4 @@ log_NWPU82
 log_UCM
 *.pyc
 oldResult/
+.gitignore
