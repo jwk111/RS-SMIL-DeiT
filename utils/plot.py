@@ -23,9 +23,9 @@ def smooth(scalar, weight=0.9):
         last = smoothed_val
     return smoothed
 
-def draw_curve(y1, y2=None):
+def draw_curve(y1, y2=None, save_path='./'):
     x1 = [i for i in range(len(y1))]
-    # y1 = smooth(y1, weight=0.95)
+    y1 = smooth(y1, weight=0.95)
     plt.plot(x1, y1, color='b', label='train')
     if y2 is not None:
         x2 = [i for i in range(len(y2))]
@@ -34,12 +34,13 @@ def draw_curve(y1, y2=None):
     plt.legend(loc='lower right', prop=font1, frameon=False)
     plt.xlabel('Epoch')
     plt.ylabel('Accuracy')
-    if not os.path.exists('./figs'):
-        os.makedirs('./figs')
-    plt.savefig('./figs/acc.jpg')
-    plt.savefig('./figs/acc.eps')
+    fig_path = os.path.join(save_path,'figs')
+    if not os.path.exists(fig_path):
+        os.makedirs(fig_path)
+    plt.savefig(os.path.join(fig_path,'acc.jpg'), dpi=1000)
+    plt.savefig(os.path.join(fig_path,'acc.eps'))
 
-def plot_confusion_matrix(y_true, y_pred, labels,title='Normalized confusion matrix'):
+def plot_confusion_matrix(y_true, y_pred, labels,title='Normalized confusion matrix',save_path='./'):
     cmap = plt.cm.Blues
     ''' 颜色参考http://blog.csdn.net/haoji007/article/details/52063168'''
     cm = confusion_matrix(y_true, y_pred)
@@ -81,7 +82,11 @@ def plot_confusion_matrix(y_true, y_pred, labels,title='Normalized confusion mat
     plt.yticks(xlocations, labels)
     plt.ylabel('Index of True Classes')
     plt.xlabel('Index of Predict Classes')
-    plt.savefig('./figs/confusion_matrix.jpg', dpi=300)
+    fig_path = os.path.join(save_path,'figs')
+    if not os.path.exists(fig_path):
+        os.makedirs(fig_path)
+    
+    plt.savefig(os.path.join(fig_path,'confusion_matrix.jpg'), dpi=1000)
     plt.title(title)
     plt.show()
 
@@ -104,5 +109,4 @@ if __name__ == '__main__':
                 else:
                     train_acc = float(line.strip().split(' ')[-1])
                     sum_train_acc += train_acc
-
     draw_curve(val[:81], train[:81])

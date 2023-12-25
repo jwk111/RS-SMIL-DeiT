@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 import sys
-sys.path.append('/home/gfx/Projects/remote_sensing_image_classification')
+sys.path.append('/home/jwk/Project/remoteSensing/RS-SMIL-DeiT')
 import os
 import cv2
 import pandas as pd
@@ -24,17 +24,18 @@ def read_txt(path):
     return ims, labels
 
 class RSDataset(Dataset):
-    def __init__(self, txt_path, width=256, height=256, transform=None, test=False):
+    def __init__(self, txt_path, width=256, height=256, transform=None, test=False,data_root=None):
         self.ims, self.labels = read_txt(txt_path)
         self.width = width
         self.height = height
         self.transform = transform
         self.test = test
+        self.data_root = data_root
 
     def __getitem__(self, index):
         im_path = self.ims[index]
         label = self.labels[index]
-        im_path = os.path.join(config.data_root, im_path)
+        im_path = os.path.join(self.data_root, im_path)
         im = Image.open(im_path)
         #im = im.resize((self.width, self.height))
         if self.transform is not None:
@@ -51,6 +52,6 @@ if __name__ == '__main__':
     dataloader_train = DataLoader(dst_train, shuffle=True, batch_size=1, num_workers=0)
     #for im, loc, cls in dataloader_train:
     for data in dataloader_train:
-        print data
+        print(data)
         #print loc, cls
     

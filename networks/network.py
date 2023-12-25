@@ -90,9 +90,9 @@ class ResNet50(nn.Module):
         super(ResNet50, self).__init__()
         self.backbone = model
 
-        self.fc1 = nn.Linear(8192, 2048)
+        self.fc1 = nn.Linear(2048, 200)
         self.dropout = nn.Dropout(0.5)
-        self.fc2 = nn.Linear(2048, num_classes)
+        self.fc2 = nn.Linear(200, num_classes)
 
 
     def forward(self, x):

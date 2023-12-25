@@ -1,0 +1,10 @@
+oldResult
+checkpoints/*
+data_8_2
+dataset/*
+log_AID
+log_NWPU28
+log_NWPU82
+log_UCM
+*.pyc
+oldResult/
